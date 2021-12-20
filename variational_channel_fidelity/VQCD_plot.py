@@ -226,7 +226,8 @@ def single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list):
     plt.show()
 
 if __name__ == "__main__":
-
+    
+    #fidelity average error over more than one channel
     # qdim = 1
     # rank = 4
     # an = 3

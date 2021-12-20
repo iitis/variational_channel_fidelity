@@ -32,7 +32,7 @@ def cost(theta):
 opt_ang_dict = {}
 for _ in range(times):
 
-    initial_guess = np.random.random(2*n*layers)                        
+    initial_guess = np.random.random(2*n*layers)                    
     res = minimize(cost, initial_guess, method=optimize_methods[1], options={'maxiter': 50})
     initial_guess = res.x
     ang = res.x
@@ -46,7 +46,7 @@ for _ in range(times):
         t1 = np.matmul(sqrt_jcdm, any_state)
         t2 = np.matmul(t1, sqrt_jcdm)
         true_fidelity = np.trace(la.sqrtm(t2)).real
-        TFB, TGFB, _ = trun_output(n, any_state, kraus_chan, opt_ang, an, error, 'sim', 'simulate', 0)
+        TFB, TGFB, _ = trun_output(n, any_state, kraus_chan, opt_ang, an, error, 'sim', 'simulator', 0)
         vtfb = np.abs(TFB - true_fidelity)
         vtgfb = np.abs(TGFB- true_fidelity)
         tfb += vtfb

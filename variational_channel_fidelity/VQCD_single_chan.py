@@ -83,7 +83,7 @@ kraus_chan = Kraus(Stinespring(chan_list[chan_no])) # convert the selected chann
 purity_before_diag_val, jcdm = purity_before_diag(qdim, kraus_chan)
 sqrt_jcdm = la.sqrtm(jcdm)
 true_eig = la.eig(jcdm)[0] # true fidelity
-any_chan_no = 730 ##np.load(f'chan_data/fid_plot_test/lowest_error_chan_qdim{qdim}_rank{rank}/.npy')
+any_chan_no = np.load(f'chan_data/fid_plot_test/lowest_error_chan_qdim{qdim}_rank{rank}/.npy')
 shots = 20000
 
 for noise_mdl in noise_mdl_list:
