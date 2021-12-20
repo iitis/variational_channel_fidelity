@@ -4,6 +4,11 @@ from extensions import *
 def jamilchoi(qdim, kraus_chan):
     """
     Returns quantum circuit corresponding to the channel-state duality.
+    input:
+    ------
+        qdim = dimention of quantum channel,
+
+        kraus_chan = kraus operator for the quantum channel,
     """
     qr_jamil = QuantumRegister(2 * qdim)
     qc_jamil = QuantumCircuit(qr_jamil)
@@ -22,7 +27,12 @@ def jamilchoi(qdim, kraus_chan):
 ## returns the purity of a random quantum channel 
 def purity_before_diag(qdim, kraus_chan):
     """
-    Returns purity and the density matrix before diagonalization.
+    Returns purity and the density matrix of the Choi-Jamiołkowski state before diagonalization.
+    input:
+    ------
+        qdim = dimention of quantum channel,
+        
+        kraus_chan = kraus operator for the quantum channel,
     """
     qc_trace = QuantumCircuit(2*qdim)
     qc_trace = qc_trace.compose(jamilchoi(qdim, kraus_chan), list(range(2*qdim)))
@@ -37,7 +47,7 @@ def maximum_likelihood(T):
     returns eigenvalues and matrix after maximal likelihood
     input:
     ------
-    T = matrix with negative eigenvalues.
+        T = matrix with negative eigenvalues.
     """
     norm = np.trace(T)
     T = T/norm
@@ -61,7 +71,6 @@ def maximum_likelihood(T):
         else:
             lamda.append(x)
 
-    #
     lamda = np.multiply(list(reversed(lamda)), np.abs(norm))
     outer = outerproduct(transposed_sorted_eigvec[0],transposed_sorted_eigvec[0])
     mat = np.multiply(lamda[0], outer)

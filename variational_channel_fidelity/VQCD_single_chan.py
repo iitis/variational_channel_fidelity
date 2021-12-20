@@ -8,15 +8,22 @@ def error_val_list(qdim, rank, any_chan_no, kraus_chan, opt_ang, an, device_type
     input:
     ------
         qdim = channel dimension.
+
         rank = rank of the matrix.
+
         any_chan_no = the reference channel. any_chan_no >= 1
+
         kraus_chan = kraus operators of the channel.
-        opt_ang = optimal angle,
+
+        opt_ang = optimal angle.
+
         an = ansatz no. under consideration
-        device_type = for simulated -->> 'sim,
-                    for real -->> 'real.
+
+        device_type = for simulated -->> 'sim',
+                    for real -->> 'real'.
         noise_mdl = for 'sim', specify noise model, amplitude damping -->> 'amp_damp', depolarizing -->> 'depol',
-        random X -->> 'rand_x'.
+                    random X -->> 'rand_x'.
+
         noise_amp = amplitude of noise, 0<= noise_amp<=1.
     ###############
     output:

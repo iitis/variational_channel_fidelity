@@ -6,18 +6,18 @@ def cost_func(qdim, theta, kraus_chan, ansatz_no, shots, purity_before_diag):
     """ Calculate the value of the cost function for particular choice of the
     input:
     ------
-    qdim = dimention of quantum channel,
-    theta = random initial angles,
-    channel = kraus operator of the channel,
-    ansatz_no = ansatz number,
-    shots = number of shors for simulator,
-    purity_before_diag = purity of channel before diagonalization,
+        qdim = dimention of quantum channel.
+        theta = random initial angles.
+        channel = kraus operator for the quantum channel.
+        ansatz_no = ansatz number.
+        shots = number of shors for simulator.
+        purity_before_diag = purity of channel before diagonalization.
 
     return:
     -------
-    cost function value
+        cost function value
 
-    layered ansatz and the angle. """
+    """
 
     # number of qubits in the full circuit
     n = 2 * qdim
@@ -60,25 +60,32 @@ def eig_info(qdim, theta, kraus_chan, ansatz_no, error, device_type, noise_mdl, 
     Return the measurement basis based on the relative error on calculating eigenvalues.
     input:
     ------
-        qdim = channel dimension.
+        qdim = dimention of quantum channel.
+
         theta = optimized angles obtained corresponding to optimal cost.
-        kraus_chan = kraus operators of the channel.
+
+        kraus_chan = kraus operators for the quantum channel.
+
         ansatz_no = the no. of ansatz under use.
+
         error = threshold for relative error.
+
         device_type = for simulated -->> 'sim,
                     for real -->> 'real.
+        
         noise_mdl = 
         ***for 'sim'***, specify noise model,
         amplitude damping -->> 'amp_damp',
         depolarizing -->> 'depol',
         random X -->> 'rand_x';
         ***for 'real'***, specify ibmq device,
-        e.g. 'ibmq-belem', 'ibmq-lima' etc.
+        e.g. 'ibmq_belem', 'ibmq_lima' etc.
+
         noise_amp == amplitude of noise, 0 <= noise_amp <= 1.
     #######################
     output:
     -------
-        a list containing inferred eigenvalues
+            a list containing inferred eigenvalues
     """
     n = 2*qdim
     qc_meas = QuantumCircuit(n)
@@ -113,9 +120,6 @@ def eig_info(qdim, theta, kraus_chan, ansatz_no, error, device_type, noise_mdl, 
         shots = 2000
         IBMQ.load_account()
         provider = IBMQ.get_provider(hub = 'ibm-q')
-        print('-----')
-        print(noise_mdl)
-        print('-----')
         device = provider.get_backend(noise_mdl)
         sim_real = AerSimulator.from_backend(device)
         result = sim_real.run(qc_meas).result()
@@ -147,16 +151,23 @@ def trun_output(n, any_state, channel, theta, ansatz_no, error, device_type, noi
     Return the measurement basis based on the relative error on calculating eigenvalues.
     input:
     ------
-        qdim = channel dimention.
+        qdim = dimention of quantum channel.
+
         theta = optimized angles obtained corresponding to optimal cost.
-        kraus_chan = kraus operators of the channel.
-        ansatz_no = the no. of ansatz under use..
+
+        kraus_chan = kraus operators for the quantum channel.
+
+        ansatz_no = the no. of ansatz under use.
+
         error = threshold for relative error.
+
         device_type = for simulated -->> 'sim,
                     for real -->> 'real.
+        
         noise_mdl = for 'sim', specify noise model, amplitude damping -->> 'amp_damp', depolarizing -->> 'depol',
         random X -->> 'rand_x'.
-        noise_amp = amplitude of noise, 0<= noise_amp<= 1.
+
+        noise_amp = amplitude of noise, 0 <= noise_amp <= 1.
     #######################
     output:
     -------
