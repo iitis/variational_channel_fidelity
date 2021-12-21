@@ -6,7 +6,7 @@ def jamilchoi(qdim, kraus_chan):
     Returns quantum circuit corresponding to the channel-state duality.
     input:
     ------
-        qdim = dimention of quantum channel,
+        qdim = dimension of quantum channel
 
         kraus_chan = kraus operator for the quantum channel,
     """
@@ -30,7 +30,7 @@ def purity_before_diag(qdim, kraus_chan):
     Returns purity and the density matrix of the Choi-Jamiołkowski state before diagonalization.
     input:
     ------
-        qdim = dimention of quantum channel,
+        qdim = dimension of quantum channel,
         
         kraus_chan = kraus operator for the quantum channel,
     """

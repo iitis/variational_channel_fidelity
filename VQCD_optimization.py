@@ -15,7 +15,7 @@ an = 3 # ['1', '2', '3', '4', '5', '6']
 
 optimize_methods = ['Powell', 'COBYLA', 'L-BFGS-B'] # possible methods
 
-chan_list = np.load(f'chan_data/rand_chan_{qdim}_qubits_{rank}_rank.npy') # load the list of channels
+chan_list = np.load(f'data/rand_chan_{qdim}_qubits_{rank}_rank.npy') # load the list of channels
 kraus_chan = Kraus(Stinespring(chan_list[chan_no])) # convert the selected channel to the Kraus form
 
 purity_before_diag_val, jcdm = purity_before_diag(qdim, kraus_chan)
@@ -63,4 +63,4 @@ for _ in range(times):
 
 fin_opt_ang = opt_ang_dict[f'{min(dum)}']
 print(f'the optimal angle has been saved, with error {min(dum)}')
-np.save(f'chan_data/opt_ang_test/dim{qdim}_opt_ang_rank{rank}_ansatz{an}_layer{layers}_final', fin_opt_ang)
+np.save(f'data/opt_ang_test/dim{qdim}_opt_ang_rank{rank}_ansatz{an}_layer{layers}_final', fin_opt_ang)

@@ -10,13 +10,13 @@ def lowest_error_channel(qdim, rank, layers, ansatz, any_chan):
     l = layers # number of layers used for optimization
     an = ansatz # ['1', '2', '3', '4', '5', '6']
 
-    chan_list = np.load(f'chan_data/rand_chan_{qdim}_qubits_{rank}_rank.npy') # load the list of channels
+    chan_list = np.load(f'data/rand_chan_{qdim}_qubits_{rank}_rank.npy') # load the list of channels
     kraus_chan = Kraus(Stinespring(chan_list[0])) # convert the selected channel to the Kraus form
 
     _, jcdm = purity_before_diag(qdim, kraus_chan)
 
     sqrt_jcdm = la.sqrtm(jcdm)       
-    fin_opt_ang = np.load(f'chan_data/opt_ang_test/dim{qdim}_opt_ang_rank{rank}_ansatz{an}_layer{l}_final.npy')
+    fin_opt_ang = np.load(f'data/opt_ang_test/dim{qdim}_opt_ang_rank{rank}_ansatz{an}_layer{l}_final.npy')
     opt_ang = fin_opt_ang.reshape(-1, 2*n)
 
     dict_chan = {}
@@ -39,7 +39,7 @@ def lowest_error_channel(qdim, rank, layers, ansatz, any_chan):
     for key in dict_chan.keys():
         dum.append(key)
     
-    np.save(f'chan_data/fid_plot_test/lowest_error_chan_qdim{qdim}_rank{rank}', dict_chan[f'{min(dum)}'])
+    np.save(f'data/fid_plot_test/lowest_error_chan_qdim{qdim}_rank{rank}', dict_chan[f'{min(dum)}'])
     return dict_chan[f'{min(dum)}']
 
 if __name__ == "__main__":

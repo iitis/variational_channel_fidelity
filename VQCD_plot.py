@@ -18,15 +18,15 @@ def plot_fid_error_with_rank(qdim, rank, an, noise_mdl, total_chan_no):
     tgfb_big_list = []
     for any_chan_no in range(1,total_chan_no+1):
         
-        error_list = np.load(f'chan_data/fid_plot_data_test/qdim{qdim}_rank{rank}_error_list_{noise_mdl}_anychan{any_chan_no}.npy')
+        error_list = np.load(f'data/fid_plot_data_test/qdim{qdim}_rank{rank}_error_list_{noise_mdl}_anychan{any_chan_no}.npy')
         
         tfb_small_list = []
         tgfb_small_list = []
         
         for error in error_list:
 
-            x1 = np.load(f'chan_data/fid_plot_data_test/qbit{qdim}_lower_bound_rel_error{error}_rank{rank}_ansatz{an}_anychan{any_chan_no}.npy')
-            x2 = np.load(f'chan_data/fid_plot_data_test/qbit{qdim}_upper_bound_rel_error{error}_rank{rank}_ansatz{an}_anychan{any_chan_no}.npy')
+            x1 = np.load(f'data/fid_plot_data_test/qbit{qdim}_lower_bound_rel_error{error}_rank{rank}_ansatz{an}_anychan{any_chan_no}.npy')
+            x2 = np.load(f'data/fid_plot_data_test/qbit{qdim}_upper_bound_rel_error{error}_rank{rank}_ansatz{an}_anychan{any_chan_no}.npy')
             tfb_small_list.append(float(x1))
             tgfb_small_list.append(float(x2))
         
@@ -132,7 +132,7 @@ def single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list):
     """
 
     if qdim == 1:
-        any_chan_no = 730 #np.load(f'chan_data/fid_plot_test/lowest_error_chan_qdim{qdim}_rank{rank}/.npy')
+        any_chan_no = 730 #np.load(f'data/fid_plot_test/lowest_error_chan_qdim{qdim}_rank{rank}/.npy')
     elif qdim == 2:
         any_chan_no = 765
 
@@ -155,9 +155,9 @@ def single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list):
     for noise_mdl_no, noise_mdl in enumerate(noise_mdl_list):
         for noise_amp_no, noise_amp in enumerate(noise_amp_list):
             
-            error_list = np.load(f'chan_data/fid_plot_data_test/qdim{qdim}_rank{rank}_error_list_{noise_mdl}_{noise_amp}.npy')
-            mlist = np.load(f'chan_data/fid_plot_data_test/qbit{qdim}_m_list_rank{rank}_ansatz{an}_{noise_mdl}_{noise_amp}.npy')
-            true_fidelity = np.load(f'chan_data/fid_plot_data_test/qbit{qdim}_true_fid_rank{rank}_ansatz{an}.npy')
+            error_list = np.load(f'data/fid_plot_data_test/qdim{qdim}_rank{rank}_error_list_{noise_mdl}_{noise_amp}.npy')
+            mlist = np.load(f'data/fid_plot_data_test/qbit{qdim}_m_list_rank{rank}_ansatz{an}_{noise_mdl}_{noise_amp}.npy')
+            true_fidelity = np.load(f'data/fid_plot_data_test/qbit{qdim}_true_fid_rank{rank}_ansatz{an}.npy')
             tfb_list = []
             tgfb_list = []
             tf_list = []
@@ -172,8 +172,8 @@ def single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list):
             for l in layers_list:
 
                 for error in error_list:
-                    tfb = np.load(f'chan_data/fid_plot_data_test/qbit{qdim}_lower_bound_rel_error{error}_rank{rank}_ansatz{an}_anychan{any_chan_no}_{device_type}{noise_mdl}_{noise_amp}_layers{l}.npy')
-                    tgfb = np.load(f'chan_data/fid_plot_data_test/qbit{qdim}_upper_bound_rel_error{error}_rank{rank}_ansatz{an}_anychan{any_chan_no}_{device_type}{noise_mdl}_{noise_amp}_layers{l}.npy')
+                    tfb = np.load(f'data/fid_plot_data_test/qbit{qdim}_lower_bound_rel_error{error}_rank{rank}_ansatz{an}_anychan{any_chan_no}_{device_type}{noise_mdl}_{noise_amp}_layers{l}.npy')
+                    tgfb = np.load(f'data/fid_plot_data_test/qbit{qdim}_upper_bound_rel_error{error}_rank{rank}_ansatz{an}_anychan{any_chan_no}_{device_type}{noise_mdl}_{noise_amp}_layers{l}.npy')
                     tfb_list.append(tfb)
                     tgfb_list.append(tgfb)
                     tf_list.append(true_fidelity)
@@ -201,7 +201,7 @@ def single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list):
             tfb_noise_free_list = []
             
             for l in range(1, layers+1):
-                tfb_noise_free = np.load(f'chan_data/fid_plot_data_test/qbit{qdim}_lower_bound_rel_error{error}_rank{rank}_ansatz{an}_anychan{any_chan_no}_simsimulator_0_layers{l}.npy')
+                tfb_noise_free = np.load(f'data/fid_plot_data_test/qbit{qdim}_lower_bound_rel_error{error}_rank{rank}_ansatz{an}_anychan{any_chan_no}_simsimulator_0_layers{l}.npy')
                 tfb_noise_free_list.append(tfb_noise_free)
         
             if l == 1 and l == 2 :

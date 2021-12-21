@@ -30,7 +30,7 @@ def error_val_list(qdim, rank, any_chan_no, kraus_chan, opt_ang, an, device_type
     -------
         a list containing threshold of relative error for different rank
     """
-    chan_list = np.load(f'chan_data/rand_chan_{qdim}_qubits_{rank}_rank.npy')
+    chan_list = np.load(f'data/rand_chan_{qdim}_qubits_{rank}_rank.npy')
     any_kraus_chan = Kraus(Stinespring(chan_list[any_chan_no]))
     _, any_state = purity_before_diag(qdim, any_kraus_chan)
     n = 2*qdim
@@ -78,12 +78,12 @@ elif device_type == 'real':
     noise_mdl_list = ['ibmq_manila', 'ibmq_lima']
     noise_amp_list = [0]
 
-chan_list = np.load(f'chan_data/rand_chan_{qdim}_qubits_{rank}_rank.npy') # load the list of channels
+chan_list = np.load(f'data/rand_chan_{qdim}_qubits_{rank}_rank.npy') # load the list of channels
 kraus_chan = Kraus(Stinespring(chan_list[chan_no])) # convert the selected channel to the Kraus form
 purity_before_diag_val, jcdm = purity_before_diag(qdim, kraus_chan)
 sqrt_jcdm = la.sqrtm(jcdm)
 true_eig = la.eig(jcdm)[0] # true fidelity
-any_chan_no = np.load(f'chan_data/fid_plot_test/lowest_error_chan_qdim{qdim}_rank{rank}/.npy')
+any_chan_no = np.load(f'data/fid_plot_test/lowest_error_chan_qdim{qdim}_rank{rank}/.npy')
 shots = 20000
 
 for noise_mdl in noise_mdl_list:
@@ -93,7 +93,7 @@ for noise_mdl in noise_mdl_list:
         print(f'noise model {noise_mdl}')
         print(f'noise model {noise_amp}')
         print('---------')
-        fin_opt_ang = np.load(f'chan_data/opt_ang_test/dim{qdim}_opt_ang_rank{rank}_ansatz{an}_layer{layers}_final.npy')
+        fin_opt_ang = np.load(f'data/opt_ang_test/dim{qdim}_opt_ang_rank{rank}_ansatz{an}_layer{layers}_final.npy')
         
         if device_type == 'real' or device_type == 'sim' and noise_mdl == 'simulator':
             layers_list = list(range(1, layers+1))
@@ -114,14 +114,14 @@ for noise_mdl in noise_mdl_list:
             t2 = np.matmul(t1, sqrt_jcdm)
             true_fidelity = np.trace(la.sqrtm(t2)).real
             
-            np.save(f'chan_data/fid_plot_data_test/qbit{qdim}_true_fid_rank{rank}_ansatz{an}', true_fidelity)
+            np.save(f'data/fid_plot_data_test/qbit{qdim}_true_fid_rank{rank}_ansatz{an}', true_fidelity)
             if len(layers_list) > 1:
                 error_list, m_list = [1], [rank] #error_val_list(qdim, rank, any_chan_no, kraus_chan, opt_ang, shots, an, device_type, noise_mdl, noise_amp)
             else:
                 error_list, m_list = error_val_list(qdim, rank, any_chan_no, kraus_chan, opt_ang, an, device_type, noise_mdl, noise_amp)
             
-            np.save(f'chan_data/fid_plot_data_test/qdim{qdim}_rank{rank}_error_list_{noise_mdl}_{noise_amp}', error_list)
-            np.save(f'chan_data/fid_plot_data_test/qbit{qdim}_m_list_rank{rank}_ansatz{an}_{noise_mdl}_{noise_amp}', m_list)
+            np.save(f'data/fid_plot_data_test/qdim{qdim}_rank{rank}_error_list_{noise_mdl}_{noise_amp}', error_list)
+            np.save(f'data/fid_plot_data_test/qbit{qdim}_m_list_rank{rank}_ansatz{an}_{noise_mdl}_{noise_amp}', m_list)
             for error in error_list:                                
                
                 TFB, TGFB, m = trun_output(n, any_state, kraus_chan, opt_ang, an, error, device_type, noise_mdl, noise_amp)
@@ -136,8 +136,8 @@ for noise_mdl in noise_mdl_list:
                 print(true_fidelity)
                 print('----')
                 
-                np.save(f'chan_data/fid_plot_data_test/qbit{qdim}_lower_bound_rel_error{error}_rank{rank}_ansatz{an}_anychan{any_chan_no}_{device_type}{noise_mdl}_{noise_amp}_layers{l}', vtfb)
-                np.save(f'chan_data/fid_plot_data_test/qbit{qdim}_upper_bound_rel_error{error}_rank{rank}_ansatz{an}_anychan{any_chan_no}_{device_type}{noise_mdl}_{noise_amp}_layers{l}', vtgfb)
+                np.save(f'data/fid_plot_data_test/qbit{qdim}_lower_bound_rel_error{error}_rank{rank}_ansatz{an}_anychan{any_chan_no}_{device_type}{noise_mdl}_{noise_amp}_layers{l}', vtfb)
+                np.save(f'data/fid_plot_data_test/qbit{qdim}_upper_bound_rel_error{error}_rank{rank}_ansatz{an}_anychan{any_chan_no}_{device_type}{noise_mdl}_{noise_amp}_layers{l}', vtgfb)
                 # else:
-                #     np.save(f'chan_data/fid_plot_data_test/qbit{qdim}_lower_bound_rel_error{int(error)}_rank{rank}_ansatz{an}_anychan{any_chan_no}_{device_type}{noise_mdl}_{noise_amp}_layers{l}', vtfb)
-                #     np.save(f'chan_data/fid_plot_data_test/qbit{qdim}_upper_bound_rel_error{int(error)}_rank{rank}_ansatz{an}_anychan{any_chan_no}_{device_type}{noise_mdl}_{noise_amp}_layers{l}', vtgfb)
+                #     np.save(f'data/fid_plot_data_test/qbit{qdim}_lower_bound_rel_error{int(error)}_rank{rank}_ansatz{an}_anychan{any_chan_no}_{device_type}{noise_mdl}_{noise_amp}_layers{l}', vtfb)
+                #     np.save(f'data/fid_plot_data_test/qbit{qdim}_upper_bound_rel_error{int(error)}_rank{rank}_ansatz{an}_anychan{any_chan_no}_{device_type}{noise_mdl}_{noise_amp}_layers{l}', vtgfb)

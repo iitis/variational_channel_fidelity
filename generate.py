@@ -43,7 +43,7 @@ def rand_chan_list(num_rand_chan, qchan, rank):
     """
 
     chan_list = []
-    chan_list_fname = 'chan_data/rand_chan_{}_qubits_{}_rank'.format(qchan, rank)
+    chan_list_fname = 'data/rand_chan_{}_qubits_{}_rank'.format(qchan, rank)
 
     print("[INFO] Generating ", num_rand_chan, " channels (", qchan, "qubits, rank",
           rank, ")")
