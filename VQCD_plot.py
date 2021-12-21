@@ -125,12 +125,12 @@ def plot_fid_error_with_rank(qdim, rank, an, noise_mdl, total_chan_no):
     # plt.savefig(f'plot/qbit{qdim}_rank{rank}_truncated_fidelity_bound_chan{any_chan_no}.pdf')
 
 
-
 def single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list):
     """
     returns plot for a single channel
     """
 
+    # TODO: why this is 730 and 765 ???
     if qdim == 1:
         any_chan_no = 730 #np.load(f'data/fid_plot_test/lowest_error_chan_qdim{qdim}_rank{rank}/.npy')
     elif qdim == 2:
@@ -152,6 +152,7 @@ def single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list):
             noise_mdl_list = ['ibmq-manila', 'ibmq-lima']
             noise_mdl_label = ['ibmq-manila', 'ibmq-lima']
         noise_amp_list = [0]
+
     for noise_mdl_no, noise_mdl in enumerate(noise_mdl_list):
         for noise_amp_no, noise_amp in enumerate(noise_amp_list):
             
@@ -196,7 +197,6 @@ def single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list):
                 
                 layers_list_plot.append(l)
 
-
         if len(layers_list) > 1:
             tfb_noise_free_list = []
             
@@ -215,19 +215,19 @@ def single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list):
             plt.xlabel('Layers of ansatz', fontsize = 15)
             plt.ylabel('$F(\\rho,\\sigma^{\\rho})$', fontsize = 15)
     if device_type == 'sim':
-        print('ahem')
         # fig.legend( bbox_to_anchor=(1., 0.5), ncol=1, borderaxespad=0.8)
         plt.subplots_adjust(bottom=0.14)
     else:
         plt.plot(layers_list_plot, tfb_noise_free_list, '--s', label = 'noise-free simulator', markerfacecolor='none')
         plt.plot(layers_list_plot, tf_list, 'k--')
         plt.legend(fontsize = 12.5, loc = 'lower right')
-    # plt.savefig(f'plot/qbit{qdim}_device{device_type}_layers{layers}.pdf')
-    plt.show()
+    plt.savefig(f'plot/qbit{qdim}_device{device_type}_layers{layers}.pdf')
+    # plt.show()
+
 
 if __name__ == "__main__":
     
-    #fidelity average error over more than one channel
+    # fidelity average error over more than one channel
     # qdim = 1
     # rank = 4
     # an = 3
