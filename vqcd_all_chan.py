@@ -81,7 +81,7 @@ opt_ang = fin_opt_ang.reshape(-1, 2 * n)
 
 for any_chan_no in range(1, any_chan):
 
-    print(f'channel {any_chan_no} done')
+    print(f'[INFO] Channel number {any_chan_no} done')
     any_kraus_chan = Kraus(Stinespring(chan_list[any_chan_no]))
 
     _, any_state = purity_before_diag(qdim, any_kraus_chan)
@@ -90,8 +90,8 @@ for any_chan_no in range(1, any_chan):
     t2 = np.matmul(t1, sqrt_jcdm)
     true_fidelity = np.trace(la.sqrtm(t2)).real
     error_list, m_list = error_val_list(qdim, rank, any_chan_no, kraus_chan, opt_ang, an, 'sim', 'simulator', 0)
-    print(error_list)
-    print(f'for channel {any_chan_no}, m_list {m_list}')
+    print("[INFO]", error_list)
+    print(f'[INFO] For channel {any_chan_no}, m_list {m_list}')
 
     np.save(f'data/fid_plot_data_test/qdim{qdim}_rank{rank}_error_list_simulator_anychan{any_chan_no}', error_list)
     np.save(f'data/fid_plot_data_test/qdim{qdim}_rank{rank}_m_list_simulator_all_chan', m_list)
