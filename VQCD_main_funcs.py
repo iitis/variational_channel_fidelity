@@ -1,5 +1,5 @@
 from extensions import *
-from VQCD_secondary_funcs import *
+from vqcd_secondary_funcs import *
 
 
 # Cost function evaluator function

@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-from VQCD_main_funcs import *
-from VQCD_secondary_funcs import *
+from vqcd_main_funcs import *
+from vqcd_secondary_funcs import *
 from matplotlib import rcParams
 import matplotlib.font_manager as font_manager
 # csfont = {'fontname':'Sans Serif'}
@@ -12,7 +12,7 @@ plt.rcParams.update({
 })
 
 
-def plot_fid_error_with_rank(qdim, rank, an, noise_mdl, total_chan_no):
+def average_fidelity(qdim, rank, an, noise_mdl, total_chan_no):
 
     tfb_big_list = []
     tgfb_big_list = []
@@ -233,7 +233,7 @@ if __name__ == "__main__":
     # an = 3
     # noise_mdl = 'simulator'
     # total_chan_no = 100
-    # plot_fid_error_with_rank(qdim, rank, an, noise_mdl, total_chan_no)
+    # average_fidelity(qdim, rank, an, noise_mdl, total_chan_no)
 
     # exit()
 
@@ -243,5 +243,5 @@ if __name__ == "__main__":
     an = 3
     layers = 3
     device_type = 'sim'
-    noise_amp_list = [0, 0.05, 0.2, 0.5,1]
+    noise_amp_list = [0, 0.05, 0.2, 0.5, 1]
     single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list)

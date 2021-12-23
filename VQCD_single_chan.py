@@ -1,5 +1,5 @@
-from VQCD_main_funcs import *
-from VQCD_secondary_funcs import *
+from vqcd_main_funcs import *
+from vqcd_secondary_funcs import *
 
 # returns the list of required relative error for which we get a different ranks
 def error_val_list(qdim, rank, any_chan_no, kraus_chan, opt_ang, an, device_type, noise_mdl, noise_amp):

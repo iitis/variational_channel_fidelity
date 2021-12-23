@@ -1,5 +1,5 @@
-from VQCD_main_funcs import *
-from VQCD_secondary_funcs import *
+from vqcd_main_funcs import *
+from vqcd_secondary_funcs import *
 
 
 # returns the list of required relative error for which we get a different ranks
