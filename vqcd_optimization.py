@@ -25,20 +25,28 @@ sqrt_jcdm = la.sqrtm(jcdm)
 true_eig = la.eig(jcdm)[0] # true fidelity
 any_chan = 10
 shots = 20000
+maxiter = 50
 
 def cost(theta):
     return cost_func(qdim, theta, kraus_chan, an, shots, purity_before_diag_val)
 
 opt_ang_dict = {}
+
+# select the optimization method
+method = optimize_methods[1]
+
+print("[INFO] Optimizing with '", method, "' using", times, "runs"); 
+
 for _ in range(times):
 
     initial_guess = np.random.random(2*n*layers)                    
-    res = minimize(cost, initial_guess, method=optimize_methods[1], options={'maxiter': 50})
+    res = minimize(cost, initial_guess, method=method, options={'maxiter': 50})
     initial_guess = res.x
     ang = res.x
     opt_ang = ang.reshape(-1, 2*n)
     tfb = 0
     tgfb = 0
+
     for any_chan_no in range(1, any_chan):
         
         any_kraus_chan = Kraus(Stinespring(chan_list[any_chan_no]))
@@ -48,7 +56,7 @@ for _ in range(times):
         true_fidelity = np.trace(la.sqrtm(t2)).real
         TFB, TGFB, _ = trun_output(n, any_state, kraus_chan, opt_ang, an, error, 'sim', 'simulator', 0)
         vtfb = np.abs(TFB - true_fidelity)
-        vtgfb = np.abs(TGFB- true_fidelity)
+        vtgfb = np.abs(TGFB - true_fidelity)
         tfb += vtfb
         tgfb += vtgfb
 
@@ -59,8 +67,8 @@ for _ in range(times):
     dum = []
     for key in opt_ang_dict.keys():
         dum.append(key)
-    print(dum)
+    print("[INFO] Best result:", min(dum))
 
 fin_opt_ang = opt_ang_dict[f'{min(dum)}']
-print(f'the optimal angle has been saved, with error {min(dum)}')
+print(f'[INFO] Optimal angle has been saved, error {min(dum)}')
 np.save(f'data/opt_ang_test/dim{qdim}_opt_ang_rank{rank}_ansatz{an}_layer{layers}_final', fin_opt_ang)
