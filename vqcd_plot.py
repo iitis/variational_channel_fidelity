@@ -111,7 +111,10 @@ def average_fidelity(qdim, rank, an, noise_mdl, total_chan_no):
     print(TGFB_std)
     print(TFB_std_less_than_five)
     print(TGFB_std_less_than_five)
-   
+  
+    #
+    # plotting procedure starts here
+    #
     plt.figure(figsize=(3.5,2.625))
     plt.errorbar(m_list, TGFB_list, fmt = 'r-s', ecolor = 'red', yerr= TGFB_std, capsize = 3, label = '$\\Delta F_{\\star} (\\rho_{m},\\sigma_{m}^{\\rho})$', markeredgecolor='red', markerfacecolor='none', markersize=6)
     plt.errorbar(m_list, TFB_list, yerr= TFB_std, fmt = 'b-s', ecolor = 'blue', capsize = 3, label = '$\\Delta F (\\rho_{m},\\sigma_{m}^{\\rho})$', markeredgecolor='blue', markerfacecolor='none', markersize=6)
@@ -136,7 +139,7 @@ def single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list):
     returns plot for a single channel
     """
 
-    # TODO: why this is 730 and 765 ???
+    # TODO: explain why this is 730 and 765
     if qdim == 1:
         any_chan_no = 730 #np.load(f'data/fid_plot_test/lowest_error_chan_qdim{qdim}_rank{rank}/.npy')
     elif qdim == 2:
@@ -144,10 +147,15 @@ def single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list):
 
     noise_mdl_list = ['amp_damp', 'depol', 'rand_x']
     if device_type == 'sim':
-        fig, ax = plt.subplots(nrows=1, ncols = len(noise_mdl_list),
-                sharex=True, sharey=True, figsize=(7, 3))
-    
+        fig, ax = plt.subplots(nrows=1, ncols = len(noise_mdl_list), sharex=True, sharey=True, figsize=(7, 3))
+    elif device_type == 'real' :
+        plt.figure(figsize=(3.5,2.625))
+    else :
+        erro(-1)
+
+
     type_list =  ['-o', '--s', '-x', '--v', '-v']
+
     if device_type == 'sim':
         noise_mdl_list = ['amp_damp', 'depol', 'rand_x']
         noise_mdl_label = ['amp. dampling', 'depolarizing', 'random X']
@@ -221,13 +229,14 @@ def single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list):
             plt.yticks()
             plt.xlabel('Layers of ansatz')
             plt.ylabel('$F(\\rho,\\sigma^{\\rho})$')
+
     if device_type == 'sim':
         # fig.legend( bbox_to_anchor=(1., 0.5), ncol=1, borderaxespad=0.8)
         plt.subplots_adjust(bottom=0.14)
-    else:
+    elif device_type == 'real' :
         plt.plot(layers_list_plot, tfb_noise_free_list, '--s', label = 'noise-free simulator', markerfacecolor='none')
         plt.plot(layers_list_plot, tf_list, 'k--')
-        plt.legend(loc = 'lower right')
+        plt.legend(loc = (0.05, 0.6))
 
     plt.tight_layout()
     out_file = f'plot/qbit{qdim}_device{device_type}_layers{layers}.pdf'
@@ -242,8 +251,8 @@ if __name__ == "__main__":
     rank =4
     an = 3
     layers = 3
-    device_type = 'sim'
-    # device_type = 'real'
+    # device_type = 'sim'
+    device_type = 'real'
     noise_mdl = 'simulator'
     total_chan_no = 100   
     
