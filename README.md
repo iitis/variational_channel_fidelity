@@ -1,3 +1,9 @@
+
+
+[![DOI](https://zenodo.org/badge/440195163.svg)](https://zenodo.org/badge/latestdoi/440195163)
+
+
+
 # variational channel fidelity estimation
 Source code used for variational quantum fidelity estimation for quantum channels.
 
