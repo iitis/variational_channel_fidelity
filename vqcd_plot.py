@@ -3,12 +3,12 @@ from vqcd_main_funcs import *
 from vqcd_secondary_funcs import *
 from matplotlib import rcParams
 import matplotlib.font_manager as font_manager
-# csfont = {'fontname':'Sans Serif'}
-# hfont = {'fontname':'Helvetica'}
 
 plt.rcParams.update({
     "text.usetex": True,
-    "font.family": "serif"
+    "font.family": "serif",
+    "font.size": 9
+
 })
 
 
@@ -111,18 +111,24 @@ def average_fidelity(qdim, rank, an, noise_mdl, total_chan_no):
     print(TGFB_std)
     print(TFB_std_less_than_five)
     print(TGFB_std_less_than_five)
-    
-    plt.errorbar(m_list, TGFB_list, fmt = 'r-s', ecolor = 'red', yerr= TGFB_std, capsize = 5, label = '$\\Delta F_{\\star} (\\rho_{m},\\sigma_{m}^{\\rho})$', markeredgecolor='red', markerfacecolor='none', markersize=10)
-    plt.errorbar(m_list, TFB_list, yerr= TFB_std, fmt = 'b-s', ecolor = 'blue', capsize = 5, label = '$\\Delta F (\\rho_{m},\\sigma_{m}^{\\rho})$', markeredgecolor='blue', markerfacecolor='none', markersize=10)
+   
+    plt.figure(figsize=(3.5,2.625))
+    plt.errorbar(m_list, TGFB_list, fmt = 'r-s', ecolor = 'red', yerr= TGFB_std, capsize = 3, label = '$\\Delta F_{\\star} (\\rho_{m},\\sigma_{m}^{\\rho})$', markeredgecolor='red', markerfacecolor='none', markersize=6)
+    plt.errorbar(m_list, TFB_list, yerr= TFB_std, fmt = 'b-s', ecolor = 'blue', capsize = 3, label = '$\\Delta F (\\rho_{m},\\sigma_{m}^{\\rho})$', markeredgecolor='blue', markerfacecolor='none', markersize=6)
     plt.errorbar(m_list, TGFB_list_less_than_5, fmt = 'r--o', ecolor = 'red', capsize = 0.1, label = '$\\Delta F_{\\star} (\\rho_{m},\\sigma_{m}^{\\rho})$ ($<  5\\% $)', markeredgewidth = 1, markeredgecolor='red', markerfacecolor='none', markersize=6)
     plt.errorbar(m_list, TFB_list_less_than_5,  fmt = 'b--o', ecolor = 'blue', capsize = 0.1, label = '$\\Delta F (\\rho_{m},\\sigma_{m}^{\\rho})$ ($<  5\\% $)', markeredgecolor='blue', markerfacecolor='none', markersize=6)
-    plt.xticks(m_list, fontsize = 13)
-    plt.yticks(fontsize = 13)
-    plt.xlabel('$m$', fontsize = 13)
-    plt.ylabel('$\\Delta F (\\rho,\\sigma^{\\rho})$', fontsize = 13)
-    plt.legend(fontsize = 13)
-    plt.show()
-    # plt.savefig(f'plot/qbit{qdim}_rank{rank}_truncated_fidelity_bound_chan{any_chan_no}.pdf')
+
+    plt.xticks(m_list)
+    plt.yticks()
+    plt.xlabel('$m$')
+    plt.ylabel('$\\Delta F (\\rho,\\sigma^{\\rho})$')
+    plt.legend()
+    #plt.show()
+
+    plt.tight_layout()
+    out_file = f'plot/qbit{qdim}_rank{rank}_truncated_fidelity_bound_chan{any_chan_no}.pdf'
+    print("[INFO] Saving in", out_file)
+    plt.savefig(f'plot/qbit{qdim}_rank{rank}_truncated_fidelity_bound_chan{any_chan_no}.pdf')
 
 
 def single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list):
@@ -138,7 +144,8 @@ def single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list):
 
     noise_mdl_list = ['amp_damp', 'depol', 'rand_x']
     if device_type == 'sim':
-        fig, ax = plt.subplots(nrows=1, ncols = len(noise_mdl_list), sharex=True, sharey=True, figsize=(10, 3.5))
+        fig, ax = plt.subplots(nrows=1, ncols = len(noise_mdl_list),
+                sharex=True, sharey=True, figsize=(7, 3))
     
     type_list =  ['-o', '--s', '-x', '--v', '-v']
     if device_type == 'sim':
@@ -185,8 +192,8 @@ def single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list):
                     if noise_mdl_no == 0:
                         ax[noise_mdl_no].plot(mlist, tfb_list, 'b'+type_list[noise_amp_no], label = '$F (\\rho_{m},\\sigma_{m}^{\\rho})$', markerfacecolor='none')
                         ax[noise_mdl_no].plot(mlist, tgfb_list, 'r'+type_list[noise_amp_no], label = '$F_{\\star} (\\rho_{m},\\sigma_{m}^{\\rho})$', markerfacecolor='none')
-                        ax[1].set_xlabel('$m$', fontsize = 12)
-                        ax[noise_mdl_no].set_ylabel('$F (\\rho,\\sigma^{\\rho})$', fontsize = 12)
+                        ax[1].set_xlabel('$m$')
+                        ax[noise_mdl_no].set_ylabel('$F (\\rho,\\sigma^{\\rho})$')
                     else:
                         ax[noise_mdl_no].plot(mlist, tfb_list, 'b'+type_list[noise_amp_no], markerfacecolor='none')
                         ax[noise_mdl_no].plot(mlist, tgfb_list, 'r'+type_list[noise_amp_no], markerfacecolor='none')
@@ -210,38 +217,46 @@ def single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list):
             else:
                 plt.plot(layers_list_plot, tfb_list, type_list[noise_mdl_no], label = f'{noise_mdl_label[noise_mdl_no]} simulator', markerfacecolor='none')
 
-            plt.xticks(list(range(1, layers+1)), fontsize = 15)
-            plt.yticks(fontsize = 15)
-            plt.xlabel('Layers of ansatz', fontsize = 15)
-            plt.ylabel('$F(\\rho,\\sigma^{\\rho})$', fontsize = 15)
+            plt.xticks(list(range(1, layers+1)))
+            plt.yticks()
+            plt.xlabel('Layers of ansatz')
+            plt.ylabel('$F(\\rho,\\sigma^{\\rho})$')
     if device_type == 'sim':
         # fig.legend( bbox_to_anchor=(1., 0.5), ncol=1, borderaxespad=0.8)
         plt.subplots_adjust(bottom=0.14)
     else:
         plt.plot(layers_list_plot, tfb_noise_free_list, '--s', label = 'noise-free simulator', markerfacecolor='none')
         plt.plot(layers_list_plot, tf_list, 'k--')
-        plt.legend(fontsize = 12.5, loc = 'lower right')
-    plt.savefig(f'plot/qbit{qdim}_device{device_type}_layers{layers}.pdf')
+        plt.legend(loc = 'lower right')
+
+    plt.tight_layout()
+    out_file = f'plot/qbit{qdim}_device{device_type}_layers{layers}.pdf'
+    print("[INFO] Saving result in", out_file)
+    plt.savefig(out_file)
     # plt.show()
 
 
 if __name__ == "__main__":
-    
-    # fidelity average error over more than one channel
-    # qdim = 1
-    # rank = 4
-    # an = 3
-    # noise_mdl = 'simulator'
-    # total_chan_no = 100
-    # average_fidelity(qdim, rank, an, noise_mdl, total_chan_no)
 
-    # exit()
-
-    # fidelity plot for one channel
     qdim = 1
-    rank = 4
+    rank =4
     an = 3
     layers = 3
     device_type = 'sim'
-    noise_amp_list = [0, 0.05, 0.2, 0.5, 1]
-    single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list)
+    # device_type = 'real'
+    noise_mdl = 'simulator'
+    total_chan_no = 100   
+    
+    if len(sys.argv) != 2:
+        print("Usage", sys.argv[0], "`type`")
+        print("`type` can be `single` or `average`")
+        sys.exit(-1)
+    else :
+        if sys.argv[1] == 'single' :
+            # fidelity plot for one channel
+            noise_amp_list = [0, 0.05, 0.2, 0.5, 1]
+            single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list)
+        if sys.argv[1] == 'average' :
+            # fidelity average error over more than one channel
+            average_fidelity(qdim, rank, an, noise_mdl, total_chan_no)
+ 
