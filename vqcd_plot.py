@@ -151,7 +151,7 @@ def single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list):
     elif device_type == 'real' :
         plt.figure(figsize=(3.5,2.625))
     else :
-        erro(-1)
+        error(-1)
 
 
     type_list =  ['-o', '--s', '-x', '--v', '-v']
@@ -248,7 +248,7 @@ def single_chan_fidelity(qdim, rank, an, layers, device_type, noise_amp_list):
 if __name__ == "__main__":
 
     qdim = 1
-    rank =4
+    rank = 4
     an = 3
     layers = 3
     # device_type = 'sim'
